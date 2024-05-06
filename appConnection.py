@@ -71,10 +71,45 @@ class dbCreate():
             )
             ''')
 
+            record_User =[()]
+
+            record_Specialization = [('Информационные системы и программирование'),
+                                     ('Безопасность компьютерных сетей')]
+            
+            record_Teacher =[()]
+
+            record_StudyGroup = [()]
+
+            record_Student = [()]
+
+            cursor.executemany('''INSERT INTO User
+                               (user_login, user_password)
+                               VALUES (?, ?)''', record_User)
+            
+            cursor.executemany('''INSERT INTO Specialization
+                               (specialization_name)
+                               VALUES (?)''', record_Specialization)
+            
+            cursor.executemany('''INSERT INTO Teacher
+                               (teacher_name, teacher_date, teacher_number, teacher_email)
+                               VALUES (?, ?, ?, ?)''', record_Teacher)
+            
+            cursor.executemany('''INSERT INTO StudyGroup
+                               (group_name, group_specialization, group_teacher)
+                               VALUES (?, ?, ?)''', record_StudyGroup)
+            
+            cursor.executemany('''INSERT INTO Teacher
+                               (student_name, student_date, student_group, student_number,
+                               student_email, student_passport, student_snils, student_inn,
+                               student_gto, student_motherName, student_motherNumber,
+                               student_motherEmail, student_fatherName, student_fatherNumber,
+                               student_fatherEmail)
+                               VALUES (?, ?, ?, ?)''', record_Student)
+
             connection.commit()
             connection.close()
             print('✅ База данных students.db инициализирована')
-        except Exception:
+        except ValueError:
             print('⚠️ Ошибка: ', Exception)
             connection.close()
 
