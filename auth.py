@@ -2,7 +2,7 @@ import sys
 from PyQt5.QtWidgets import (QApplication, QWidget, QPushButton, QLabel, QLineEdit, QGridLayout, QMessageBox)
 from PyQt5 import QtSql
 from appConnection import dbCreate, dbConnection
-import mainWindow
+import studentsWindow
 
 class LoginForm(QWidget):
     def __init__(self):
@@ -44,7 +44,7 @@ class LoginForm(QWidget):
         query.exec()
         if query.first():
             if int(query.value(0)) > 0:
-                print(f'Ⓜ️ Пользователь {login} авторизовался!')
+                print(f'Ⓜ️  Пользователь {login} авторизовался!')
                 msg.setText('Вход выполнен успешно!')
                 msg.exec_()
                 formWork.show()
@@ -61,7 +61,7 @@ if __name__ == '__main__':
     app = QApplication(sys.argv)
 
     form = LoginForm()
-    formWork = mainWindow.MainWindow()
+    formWork = studentsWindow.StudentsWindow()
     form.show()
 
     sys.exit(app.exec_())

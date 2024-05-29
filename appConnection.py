@@ -1,141 +1,146 @@
-import sqlite3
+import sqlite3, os.path
 from PyQt5 import QtSql
 
-class dbCreate():
-    def __init__(self):
-        print('🔁 Инициализация базы данных SQLite3')
-        connection = sqlite3.connect('students.db') #Подключение или создание БД
-        cursor = connection.cursor() #Выполнение SQL-запросов
+def dbCreate():
+    print('🔁 Инициализация базы данных SQLite3')
+    connection = sqlite3.connect('students.db') #Подключение или создание БД
+    cursor = connection.cursor() #Выполнение SQL-запросов
 
-        try:
-            # Таблица пользователей
-            cursor.execute('''
-            CREATE TABLE IF NOT EXISTS User (
-                        user_id INTEGER PRIMARY KEY,
-                        user_login TEXT NOT NULL,
-                        user_password TEXT NOT NULL
-            )
-            ''')
+    try:
+        # Таблица пользователей
+        cursor.execute('''
+        CREATE TABLE IF NOT EXISTS User (
+                    user_id INTEGER PRIMARY KEY,
+                    user_login TEXT NOT NULL,
+                    user_password TEXT NOT NULL
+        )
+        ''')
 
-            # Таблица специальностей
-            cursor.execute('''
-            CREATE TABLE IF NOT EXISTS Specialization (
-                        specialization_id INTEGER PRIMARY KEY,
-                        specialization_name TEXT NOT NULL
-            )
-            ''')
+        # Таблица специальностей
+        cursor.execute('''
+        CREATE TABLE IF NOT EXISTS Specialization (
+                    specialization_id INTEGER PRIMARY KEY,
+                    specialization_name TEXT NOT NULL
+        )
+        ''')
 
-            # Таблица преподавателей
-            cursor.execute('''
-            CREATE TABLE IF NOT EXISTS Teacher (
-                        teacher_id INTEGER PRIMARY KEY,
-                        teacher_name TEXT NOT NULL,
-                        teacher_date INTEGER,
-                        teacher_number INTEGER NOT NULL,
-                        teacher_email TEXT NOT NULL
-            )
-            ''')
+        # Таблица преподавателей
+        cursor.execute('''
+        CREATE TABLE IF NOT EXISTS Teacher (
+                    teacher_id INTEGER PRIMARY KEY,
+                    teacher_name TEXT NOT NULL,
+                    teacher_date INTEGER,
+                    teacher_number INTEGER NOT NULL,
+                    teacher_email TEXT NOT NULL
+        )
+        ''')
 
-            # Таблица учебных групп
-            cursor.execute('''
-            CREATE TABLE IF NOT EXISTS StudyGroup (
-                        group_id INTEGER PRIMARY KEY,
-                        group_name TEXT NOT NULL,
-                        group_specialization INTEGER,
-                        group_teacher INTEGER,
-                        FOREIGN KEY(group_specialization) REFERENCES Specialization(specialization_id),
-                        FOREIGN KEY(group_teacher) REFERENCES Teacher(teacher_id)
-            )
-            ''')
+        # Таблица учебных групп
+        cursor.execute('''
+        CREATE TABLE IF NOT EXISTS StudyGroup (
+                    group_id INTEGER PRIMARY KEY,
+                    group_name TEXT NOT NULL,
+                    group_specialization INTEGER,
+                    group_teacher INTEGER,
+                    FOREIGN KEY(group_specialization) REFERENCES Specialization(specialization_id),
+                    FOREIGN KEY(group_teacher) REFERENCES Teacher(teacher_id)
+        )
+        ''')
 
-            # Таблица студентов
-            cursor.execute('''
-            CREATE TABLE IF NOT EXISTS Students (
-                        student_id INTEGER PRIMARY KEY,
-                        student_name TEXT NOT NULL,
-                        student_date TEXT NOT NULL,
-                        student_group INTEGER NOT NULL,
-                        student_number INTEGER NOT NULL,
-                        student_email TEXT,
-                        student_passport TEXT NOT NULL,
-                        student_snils TEXT NOT NULL,
-                        student_inn TEXT NOT NULL,
-                        student_gto INTEGER,
-                        student_motherName TEXT,
-                        student_motherNumber INTEGER,
-                        student_motherEmail TEXT,
-                        student_fatherName TEXT,
-                        student_fatherNumber INTEGER,
-                        student_fatherEmail TEXT,
-                        FOREIGN KEY(student_group) REFERENCES StudyGroup(group_id)
-            )
-            ''')
+        # Таблица студентов
+        cursor.execute('''
+        CREATE TABLE IF NOT EXISTS Students (
+                    student_id INTEGER PRIMARY KEY,
+                    student_name TEXT NOT NULL,
+                    student_date TEXT NOT NULL,
+                    student_group INTEGER NOT NULL,
+                    student_number INTEGER NOT NULL,
+                    student_email TEXT,
+                    student_passport TEXT NOT NULL,
+                    student_snils TEXT NOT NULL,
+                    student_inn TEXT NOT NULL,
+                    student_gto INTEGER,
+                    student_motherName TEXT,
+                    student_motherNumber INTEGER,
+                    student_motherEmail TEXT,
+                    student_fatherName TEXT,
+                    student_fatherNumber INTEGER,
+                    student_fatherEmail TEXT,
+                    FOREIGN KEY(student_group) REFERENCES StudyGroup(group_id)
+        )
+        ''')
 
-            record_User =[('user', 'user'),
-                          ('admin', 'admin'),]
+        record_User =[('user', 'user'),
+                    ('admin', 'admin'),]
 
-            record_Specialization = [('Информационные системы и программирование'),
-                                     ('Безопасность компьютерных сетей')]
-            
-            record_Teacher =[('Иванов Иван Иванович','01.01.1990','79123456789','ivanov@mail.com'),
-                             ('Петров Петр Петрович','02.02.1991','78123456789','petrov@mail.com'),
-                             ('Сидоров Сидор Сидорович','03.03.1993','77123456789','sidorov@mail.com'),
-                             ('Николаев Николай Николаевич','04.04.1994','76123456789','nikolaev@mail.com'),
-                             ('Смирнов Сергей Сергеевич','05.05.1995','75123456789','smirnov@mail.com'),
-                             ('Кузнецов Кузьма Кузьмич','06.06.1996','74123456789','kuznetsov@mail.com'),
-                             ('Соколов Семён Семёнович','07.07.1997','73123456789','sokolov@mail.com'),
-                             ('Лебедев Лев Львович','08.08.1998','72123456789','lebedev@mail.com'),
-                             ('Волков Владимир Владимирович','09.09.1999','71123456789','volkov@mail.com'),
-                             ('Дмитриев Дмитрий Дмитриевич','02.02.1992','79123456789','dmitriev@mail.com'),]
+        record_Specialization = [('Информационные системы и программирование',),
+                                ('Безопасность компьютерных сетей',)]
+        
+        record_Teacher =[('Иванов Иван Иванович','01.01.1990','79123456789','ivanov@mail.com'),
+                        ('Петров Петр Петрович','02.02.1991','78123456789','petrov@mail.com'),
+                        ('Сидоров Сидор Сидорович','03.03.1993','77123456789','sidorov@mail.com'),
+                        ('Николаев Николай Николаевич','04.04.1994','76123456789','nikolaev@mail.com'),
+                        ('Смирнов Сергей Сергеевич','05.05.1995','75123456789','smirnov@mail.com'),
+                        ('Кузнецов Кузьма Кузьмич','06.06.1996','74123456789','kuznetsov@mail.com'),
+                        ('Соколов Семён Семёнович','07.07.1997','73123456789','sokolov@mail.com'),
+                        ('Лебедев Лев Львович','08.08.1998','72123456789','lebedev@mail.com'),
+                        ('Волков Владимир Владимирович','09.09.1999','71123456789','volkov@mail.com'),
+                        ('Дмитриев Дмитрий Дмитриевич','02.02.1992','79123456789','dmitriev@mail.com'),]
 
-            record_StudyGroup = [('СИП-113/23', '1', '1'),
-                                 ('СИП-123/23', '1', '2'),
-                                 ('СИП-133/23', '1', '3'),
-                                 ('СИП-143/23', '1', '4'),
-                                 ('СИП-213/22', '1', '5'),
-                                 ('СИП-223/22', '1', '6'),
-                                 ('СОБ-113/23', '2', '7'),
-                                 ('СОБ-213/22', '2', '8'),
-                                 ('СОБ-223/22', '2', '9'),
-                                 ('СОБ-123/23', '2', '10'),]
+        record_StudyGroup = [('СИП-113/23', '1', '1'),
+                            ('СИП-123/23', '1', '2'),
+                            ('СИП-133/23', '1', '3'),
+                            ('СИП-143/23', '1', '4'),
+                            ('СИП-213/22', '1', '5'),
+                            ('СИП-223/22', '1', '6'),
+                            ('СОБ-113/23', '2', '7'),
+                            ('СОБ-213/22', '2', '8'),
+                            ('СОБ-223/22', '2', '9'),
+                            ('СОБ-123/23', '2', '10'),]
 
-            record_Student = [()]
+        record_Student = [('Никита Буянов', '24.01.2005', '1', '88005553535', 'bruh@mail.ru', '1111 111111', '111111111', '222222222222', '31476', 'Мамка', '8652', '123', 'Папка', '1234', '1234')]
 
-            cursor.executemany('''INSERT INTO User
-                               (user_login, user_password)
-                               VALUES (?, ?)''', record_User)
-            
-            cursor.executemany('''INSERT INTO Specialization
-                               (specialization_name)
-                               VALUES (?)''', record_Specialization)
-            
-            cursor.executemany('''INSERT INTO Teacher
-                               (teacher_name, teacher_date, teacher_number, teacher_email)
-                               VALUES (?, ?, ?, ?)''', record_Teacher)
-            
-            cursor.executemany('''INSERT INTO StudyGroup
-                               (group_name, group_specialization, group_teacher)
-                               VALUES (?, ?, ?)''', record_StudyGroup)
-            
-            cursor.executemany('''INSERT INTO Teacher
-                               (student_name, student_date, student_group, student_number,
-                               student_email, student_passport, student_snils, student_inn,
-                               student_gto, student_motherName, student_motherNumber,
-                               student_motherEmail, student_fatherName, student_fatherNumber,
-                               student_fatherEmail)
-                               VALUES (?, ?, ?, ?)''', record_Student)
+        cursor.executemany('''INSERT INTO User
+                        (user_login, user_password)
+                        VALUES (?, ?)''', record_User)
+        
+        cursor.executemany('''INSERT INTO Specialization
+                        (specialization_name)
+                        VALUES (?)''', record_Specialization)
+        
+        cursor.executemany('''INSERT INTO Teacher
+                        (teacher_name, teacher_date, teacher_number, teacher_email)
+                        VALUES (?, ?, ?, ?)''', record_Teacher)
+        
+        cursor.executemany('''INSERT INTO StudyGroup
+                        (group_name, group_specialization, group_teacher)
+                        VALUES (?, ?, ?)''', record_StudyGroup)
+        
+        cursor.executemany('''INSERT INTO Students
+                           (student_name, student_date, student_group, student_number,
+                           student_email, student_passport, student_snils, student_inn,
+                           student_gto, student_motherName, student_motherNumber,
+                           student_motherEmail, student_fatherName, student_fatherNumber,
+                           student_fatherEmail)
+                           VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)''', record_Student)
 
-            connection.commit()
-            connection.close()
-            print('✅ База данных students.db инициализирована')
-        except ValueError:
-            print('⚠️ Ошибка: ', Exception)
-            connection.close()
+        connection.commit()
+        connection.close()
+        print('✅ База данных students.db инициализирована')
+    except ValueError:
+        print('⚠️ Ошибка: ', Exception)
+        connection.close()
 
-class dbConnection():
+def dbConnection():
     dbConnect = QtSql.QSqlDatabase.addDatabase('QSQLITE')
     dbConnect.setDatabaseName('students.db')
     try:
         dbConnect.open()
     except:
         print('⚠️ Неопределенная ошибка Ошибка!')
+
+class dbRequest():
+    connection = sqlite3.Connection('students.db')
+    def getUser():
+        query = QtSql.QSqlQuery()
+        query.exec("SELECT * FROM User")
