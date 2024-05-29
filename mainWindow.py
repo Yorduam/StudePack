@@ -2,6 +2,7 @@ import sys
 from PyQt5.QtWidgets import (QApplication, QWidget, QPushButton, QLabel, QLineEdit, QGridLayout, QMessageBox)
 from PyQt5 import QtSql, QtGui
 from PyQt5.QtCore import Qt
+import studentsWindow
 
 class MainWindow(QWidget):
     def __init__(self):
@@ -18,7 +19,6 @@ class MainWindow(QWidget):
         work_layout.addWidget(label_first, 1, 1)
         button_user = QPushButton('Пользователи')
         button_teacher = QPushButton('Преподаватели')
-        # button_user.clicked.connect(self.to_User)
         work_layout.addWidget(button_user, 2, 0)
         work_layout.addWidget(button_teacher, 2, 1)
 
@@ -30,9 +30,15 @@ class MainWindow(QWidget):
         label_third = QLabel('<font size="6"> Данные III уровня </font>')
         work_layout.addWidget(label_third, 5, 1)
         button_student = QPushButton('Студенты')
+        button_student.clicked.connect(self.open_studentWindow)
         work_layout.addWidget(button_student, 6, 1)
         
 
         label_about = QLabel('<font size="4"> @Yordu v.0.3.0</font>')
         work_layout.addWidget(label_about, 7, 0)
         self.setLayout(work_layout)
+
+    def open_studentWindow(self):
+        self.sf = studentsWindow.StudentsWindow()
+        self.sf.show()
+        

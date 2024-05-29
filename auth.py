@@ -2,7 +2,7 @@ import sys
 from PyQt5.QtWidgets import (QApplication, QWidget, QPushButton, QLabel, QLineEdit, QGridLayout, QMessageBox)
 from PyQt5 import QtSql
 from appConnection import dbCreate, dbConnection
-import studentsWindow
+import mainWindow
 
 class LoginForm(QWidget):
     def __init__(self):
@@ -61,7 +61,7 @@ if __name__ == '__main__':
     app = QApplication(sys.argv)
 
     form = LoginForm()
-    formWork = studentsWindow.StudentsWindow()
+    formWork = mainWindow.MainWindow()
     form.show()
 
     sys.exit(app.exec_())
