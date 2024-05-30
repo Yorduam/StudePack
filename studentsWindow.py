@@ -2,7 +2,7 @@ import sys
 from PyQt5.QtWidgets import *
 from PyQt5 import QtSql, QtWidgets, QtCore
 from PyQt5.QtGui import *
-from appConnection import dbConnection
+from appConnection import dbConnection, dbRequest
 
 class StudentsWindow(QDialog):
     def __init__(self):
@@ -46,10 +46,13 @@ class StudentsWindow(QDialog):
         vbox.addWidget(self.tv)
         self.btnAdd = QtWidgets.QPushButton('Добавить запись')
         self.btnDel = QtWidgets.QPushButton('Удалить запись')
+        self.btnExp = QtWidgets.QPushButton('Печать')
         self.btnAdd.clicked.connect(self.addRecord)
         vbox.addWidget(self.btnAdd)
         self.btnDel.clicked.connect(self.delRecord)
         vbox.addWidget(self.btnDel)
+        self.btnExp.clicked.connect(self.expRecord)
+        vbox.addWidget(self.btnExp)
         self.setLayout(vbox)
         self.w.resize(500, 500)
         self.w.show
@@ -60,3 +63,6 @@ class StudentsWindow(QDialog):
     def delRecord(self):
         self.stm.removeRow(self.tv.currentIndex().row())
         self.stm.select()
+
+    def expRecord(self):
+        dbRequest.expStudents()

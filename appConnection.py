@@ -1,4 +1,4 @@
-import sqlite3, os.path
+import sqlite3, os.path, csv
 from PyQt5 import QtSql
 
 def dbCreate():
@@ -149,7 +149,42 @@ def dbConnection():
         print('⚠️ Неопределенная ошибка Ошибка!')
 
 class dbRequest():
-    connection = sqlite3.Connection('students.db')
-    def getUser():
-        query = QtSql.QSqlQuery()
-        query.exec("SELECT * FROM User")
+    def expStudents():
+        conn = sqlite3.connect('students.db')
+        cursor = conn.cursor()
+        cursor.execute("select * from Students;")
+        with open("students.csv", 'w',newline='') as csv_file: 
+            csv_writer = csv.writer(csv_file)
+            csv_writer.writerow([i[0] for i in cursor.description]) 
+            csv_writer.writerows(cursor)
+        conn.close()
+
+    def expUsers():
+        conn = sqlite3.connect('students.db')
+        cursor = conn.cursor()
+        cursor.execute("select * from User;")
+        with open("user.csv", 'w',newline='') as csv_file: 
+            csv_writer = csv.writer(csv_file)
+            csv_writer.writerow([i[0] for i in cursor.description]) 
+            csv_writer.writerows(cursor)
+        conn.close()
+
+    def expStudyGroup():
+        conn = sqlite3.connect('students.db')
+        cursor = conn.cursor()
+        cursor.execute("select * from StudyGroup;")
+        with open("studyGroup.csv", 'w',newline='') as csv_file: 
+            csv_writer = csv.writer(csv_file)
+            csv_writer.writerow([i[0] for i in cursor.description]) 
+            csv_writer.writerows(cursor)
+        conn.close()
+    
+    def expTeachers():
+        conn = sqlite3.connect('students.db')
+        cursor = conn.cursor()
+        cursor.execute("select * from Teacher;")
+        with open("teacher.csv", 'w',newline='') as csv_file: 
+            csv_writer = csv.writer(csv_file)
+            csv_writer.writerow([i[0] for i in cursor.description]) 
+            csv_writer.writerows(cursor)
+        conn.close()
