@@ -38,6 +38,9 @@ class StudentsWindow(QDialog):
         self.stm.setHeaderData(13, QtCore.Qt.Orientation.Horizontal,'student_fatherName')
         self.stm.setHeaderData(14, QtCore.Qt.Orientation.Horizontal,'student_fatherNumber')
         self.stm.setHeaderData(15, QtCore.Qt.Orientation.Horizontal,'student_fatherEmail')
+        self.stm.setHeaderData(16, QtCore.Qt.Orientation.Horizontal,'student_reg')
+        self.stm.setHeaderData(17, QtCore.Qt.Orientation.Horizontal,'student_live')
+        self.stm.setHeaderData(18, QtCore.Qt.Orientation.Horizontal,'student_mark')
 
         vbox = QtWidgets.QVBoxLayout()
         self.tv = QtWidgets.QTableView()
