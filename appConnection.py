@@ -133,8 +133,8 @@ def dbCreate():
                            student_email, student_passport, student_snils, student_inn,
                            student_gto, student_motherName, student_motherNumber,
                            student_motherEmail, student_fatherName, student_fatherNumber,
-                           student_fatherEmail)
-                           VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)''', record_Student)
+                           student_fatherEmail, student_reg, student_live, student_mark)
+                           VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)''', record_Student)
 
         connection.commit()
         connection.close()
