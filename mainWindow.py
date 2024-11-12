@@ -3,6 +3,7 @@ from PyQt5.QtWidgets import *
 from PyQt5 import QtSql, QtGui
 from PyQt5.QtCore import Qt
 import studentsWindow, userWindow, teacherWindow, groupWindow
+from appConnection import configConnection
 
 class MainWindow(QDialog):
     def __init__(self):
@@ -12,7 +13,10 @@ class MainWindow(QDialog):
 
         work_layout = QGridLayout()
 
-        label_name = QLabel('<font size="18"> StudentPack </font>')
+        name = configConnection('name')
+        version = configConnection('version')
+
+        label_name = QLabel(f'<font size="18"> {name} </font>')
         work_layout.addWidget(label_name, 0, 1)
         
         label_first = QLabel('<font size="6"> Данные I уровня </font>')
@@ -37,7 +41,7 @@ class MainWindow(QDialog):
         work_layout.addWidget(button_student, 6, 1)
         
 
-        label_about = QLabel('<font size="4"> @Yordu v.0.6.0</font>')
+        label_about = QLabel(f'<font size="4"> @Yordu v.{version}</font>')
         work_layout.addWidget(label_about, 7, 0)
         self.setLayout(work_layout)
 

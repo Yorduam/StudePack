@@ -1,4 +1,4 @@
-import sqlite3, os.path, csv
+import sqlite3, os.path, csv, json
 from PyQt5 import QtSql
 
 def dbCreate():
@@ -150,6 +150,11 @@ def dbConnection():
         dbConnect.open()
     except:
         print('⚠️ Неопределенная ошибка Ошибка!')
+
+def configConnection(key):
+    with open('config.json', 'r') as dictConf:
+        data = json.loads(dictConf.read())
+        return data[key]
 
 class dbRequest():
     def expStudents():
